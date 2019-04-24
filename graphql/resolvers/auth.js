@@ -2,6 +2,7 @@ const bcrypt = require("bcrypt");
 const User = require("../../models/User");
 const {getEvents} = require('./merge')
 const jwt = require('jsonwebtoken')
+const {BCRYPT_SECRET} = require('../../config')
 
 
 module.exports = {
@@ -46,7 +47,7 @@ module.exports = {
         if(!verified){
             throw new Error('Wrong credentials')
         }
-        const token = await jwt.sign({userId:user.id, username:user.username}, 'quiteasecret', {expiresIn:'1h'})
+        const token = await jwt.sign({userId:user.id, username:user.username}, BCRYPT_SECRET, {expiresIn:'1h'})
         console.log(token)
         return {
             userId: user.id,
